@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Incident Log Analyzer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" role="presentation">
+          <path d="M12 2.25 20 5.2v5.71c0 5.01-3.25 9.56-8 10.84-4.75-1.28-8-5.83-8-10.84V5.2l8-2.95Zm0 2.12L6 6.59v4.32c0 4.02 2.45 7.77 6 8.99 3.55-1.22 6-4.97 6-8.99V6.59l-6-2.22Z"/>
+        </svg>
+      </div>
+      <div>
+        <p class="brand-name">CILA Dashboard</p>
+      </div>
+    </div>
+
+    <section class="sidebar-section">
+      <p class="sidebar-label">Main Controls</p>
+      <div class="controls-card">
+        <button id="startBtn" class="control-button control-button-primary" type="button">
+          <span class="button-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation">
+              <path d="M8 6v12l10-6-10-6Z"/>
+            </svg>
+          </span>
+          <span id="startBtnText">Go Live Tracking</span>
+        </button>
+
+        <button id="batchBtn" class="control-button control-button-secondary" type="button">
+          <span class="button-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation">
+              <path d="M12 3a1 1 0 0 1 1 1v8.59l2.3-2.29a1 1 0 1 1 1.4 1.41l-4 3.99a1 1 0 0 1-1.4 0l-4-3.99a1 1 0 1 1 1.4-1.41L11 12.59V4a1 1 0 0 1 1-1Zm-7 14a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z"/>
+            </svg>
+          </span>
+          <span>Upload Batch Logs</span>
+        </button>
+
+        <button id="resetBtn" class="control-button control-button-tertiary" type="button">
+          <span class="button-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation">
+              <path d="M12 5a7 7 0 1 1-6.32 10H3.75a1 1 0 1 1 0-2H7a1 1 0 0 1 1 1v3.25a1 1 0 1 1-2 0v-.73A9 9 0 1 0 12 3a8.93 8.93 0 0 1 6.31 2.57 1 1 0 1 1-1.4 1.43A6.94 6.94 0 0 0 12 5Z"/>
+            </svg>
+          </span>
+          <span>Reset Dashboard</span>
+        </button>
+
+        <input id="fileInput" type="file" accept=".csv,text/csv" hidden>
+        <p id="controlStatus" class="control-status" aria-live="polite">Ready to monitor real-time cloud events.</p>
+      </div>
+    </section>
+  </aside>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h1>Cloud Incident Log Analyzer</h1>
+        <p>Real-Time Anomaly Engine</p>
+      </div>
+      <span id="riskPill" class="risk-pill risk-normal">NORMAL RANGE</span>
+    </header>
+
+    <section class="metrics-grid" aria-label="Dashboard statistics">
+      <article class="metric-card">
+        <p class="metric-label">Total Logs</p>
+        <h2 id="statTotal" class="metric-value">0</h2>
+      </article>
+
+      <article class="metric-card">
+        <p class="metric-label">Anomalies Detected</p>
+        <h2 id="statAnom" class="metric-value metric-value-alert">0</h2>
+      </article>
+
+      <article class="metric-card">
+        <p class="metric-label">Anomaly Rate</p>
+        <h2 id="statRate" class="metric-value">0.0%</h2>
+      </article>
+
+      <article class="metric-card">
+        <p class="metric-label">Processing Latency</p>
+        <h2 id="statLatency" class="metric-value">~14ms</h2>
+      </article>
+    </section>
+
+    <section class="insights-grid">
+      <article class="panel timeline-panel">
+        <div class="panel-heading">
+          <h3>Anomaly Score Timeline</h3>
+        </div>
+        <div class="chart-frame">
+          <canvas id="timelineCanvas" aria-label="Anomaly score timeline chart"></canvas>
+        </div>
+      </article>
+
+      <article class="panel threats-panel">
+        <div class="panel-heading">
+          <h3>Threat Categories</h3>
+        </div>
+        <div id="threatList" class="threat-list"></div>
+        <p id="threatEmpty" class="empty-state">Threat categories will populate as anomalies are detected.</p>
+      </article>
+    </section>
+
+    <section class="feed-section">
+      <div class="section-heading">
+        <h3>Live Incident Feed</h3>
+      </div>
+
+      <div class="table-shell">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Event</th>
+                <th>Source IP</th>
+                <th>Score</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody id="logTableBody">
+              <tr class="placeholder-row">
+                <td colspan="6">No logs processed yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>

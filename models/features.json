@@ -1,0 +1,10 @@
+[
+  "event_count_1h",
+  "fail_count_1h",
+  "fail_ratio_1h",
+  "admin_ratio_1h",
+  "modify_ratio_1h",
+  "ip_changed",
+  "is_fail_event",
+  "is_admin_event"
+]

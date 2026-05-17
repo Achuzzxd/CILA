@@ -1,0 +1,61 @@
+{
+  "architecture": "Hybrid: RandomForest with behavioral features",
+  "algorithm": "sklearn.ensemble.RandomForestClassifier (supervised)",
+  "hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 15,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "class_weight": "balanced"
+  },
+  "scaler": "RobustScaler",
+  "features": [
+    "event_count_1h",
+    "fail_count_1h",
+    "fail_ratio_1h",
+    "admin_ratio_1h",
+    "modify_ratio_1h",
+    "ip_changed",
+    "is_fail_event",
+    "is_admin_event"
+  ],
+  "training_data": {
+    "file": "log.csv",
+    "total_samples": 105,
+    "anomalies": 52,
+    "normal": 53,
+    "anomaly_ratio": 0.49523809523809526
+  },
+  "performance": {
+    "accuracy": 0.9142857142857143,
+    "precision": 1.0,
+    "recall": 0.8269230769230769,
+    "f1_score": 0.9052631578947369,
+    "true_positives": 43,
+    "true_negatives": 53,
+    "false_positives": 0,
+    "false_negatives": 9,
+    "detected_anomalies": 43,
+    "target_anomalies": 52
+  },
+  "anomaly_events": [
+    "access_denied",
+    "create_user",
+    "delete_config",
+    "delete_policy",
+    "delete_user",
+    "disable_mfa",
+    "export_data",
+    "failed_login",
+    "modify_config",
+    "modify_policy"
+  ],
+  "normal_events": [
+    "access_resource",
+    "create_backup",
+    "login",
+    "logout"
+  ],
+  "note": "Supervised classifier achieves high accuracy by learning direct mapping from features to ground truth labels"
+}

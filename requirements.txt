@@ -1,0 +1,23 @@
+# Backend
+fastapi
+uvicorn
+python-dotenv
+pydantic
+
+# Machine Learning
+scikit-learn
+pandas
+numpy
+joblib
+
+# Database
+pymongo
+psycopg2-binary
+
+# Frontend
+streamlit
+
+# Utils
+python-json-logger
+requests
+httpx

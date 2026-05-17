@@ -1,0 +1,13 @@
+{
+  "Total Logs": 105,
+  "True Anomalies (Ground Truth)": 52,
+  "Detected Anomalies": 28,
+  "Accuracy": 0.4857,
+  "Precision": 0.4643,
+  "Recall": 0.25,
+  "F1 Score": 0.325,
+  "True Negatives": 38,
+  "False Positives": 15,
+  "False Negatives": 39,
+  "True Positives": 13
+}
