@@ -153,6 +153,7 @@ cython_debug/
 data/raw_logs/*
 data/parsed_logs/*
 data/processed/*
+data/unified_logs/*
 models/trained_models/*.pkl
 models/trained_models/*.joblib
 logs/*.log
